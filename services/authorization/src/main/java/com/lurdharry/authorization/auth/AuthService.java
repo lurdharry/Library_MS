@@ -22,8 +22,7 @@ public class AuthService {
         repository.save(encodedDetails);
     }
 
-    public Optional<UserResponse> findByEmail(String email){
-        var user = repository.findByEmail(email);
-        return Optional.ofNullable(mapper.toUserResponse(user));
+    public Optional<User> findByEmail(String email){
+        return repository.findByEmail(email);
     }
 }
