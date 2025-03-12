@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.core.Authentication;
 
+import java.util.Map;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
@@ -30,7 +32,10 @@ public class AuthController {
     ){
           service.registerUser(request);
 
-          ResponseDTO response = new ResponseDTO(HttpStatus.OK,"User registered successfully.");
+          ResponseDTO response = ResponseDTO.builder()
+                  .status(HttpStatus.OK)
+                  .message("User registered successfully.")
+                  .build();
 
           return new ResponseEntity<>(response,HttpStatus.OK);
     }
@@ -46,7 +51,7 @@ public class AuthController {
 
         String token = jwtUtil.generateToken(request.email());
 
-        ResponseDTO response = new ResponseDTO(HttpStatus.OK,token);
+        ResponseDTO response = new ResponseDTO(HttpStatus.OK,"Login successful!", Map.of("token",token));
 
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
