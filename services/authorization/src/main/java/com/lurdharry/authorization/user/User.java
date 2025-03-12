@@ -16,7 +16,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "users")
+@Table(
+        name = "users",
+        uniqueConstraints = {
+            @UniqueConstraint(columnNames = "email")
+        }
+)
 public class User {
 
     @Id
