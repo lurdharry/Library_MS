@@ -1,5 +1,6 @@
 package com.lurdharry.authorization.auth;
 
+import com.lurdharry.authorization.exception.EmailAlreadyExistsException;
 import com.lurdharry.authorization.user.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,11 @@ public class AuthService {
 
 
     public void registerUser(@Valid UserRequest request) {
+
+        if (repository.findByEmail(request.email()).isPresent()){
+            throw new EmailAlreadyExistsException("Email already exists!");
+        }
+
         var encodedDetails = mapper.toUserWithEncodedPassword(request);
 
         repository.save(encodedDetails);
