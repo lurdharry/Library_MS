@@ -3,3 +3,7 @@ spring:
     name: auth-service
   config:
     import: optional:configserver:http://localhost:8888
+
+jwt:
+  secret: "your-very-secure-secret-key-at-least-32-characters-long"
+  expiration: 864000000  # 24 hours

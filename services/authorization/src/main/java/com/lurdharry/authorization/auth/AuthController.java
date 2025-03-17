@@ -49,7 +49,9 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(request.email(),request.password())
         );
 
-        String token = jwtUtil.generateToken(request.email());
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+
+        String token = jwtUtil.generateToken(userDetails.getUsername(),userDetails.getRole());
 
         ResponseDTO response = new ResponseDTO(HttpStatus.OK,"Login successful!", Map.of("token",token));
 
