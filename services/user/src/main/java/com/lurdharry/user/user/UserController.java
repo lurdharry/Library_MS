@@ -42,7 +42,7 @@ public class UserController {
     @GetMapping
     public ResponseEntity<ResponseDTO> getAllUsers(){
         var users = userService.getAllUsers();
-        ResponseDTO response = new ResponseDTO(HttpStatus.OK.value(), "all users fetched successfully",users);
+        ResponseDTO response = new ResponseDTO(HttpStatus.OK.value(), "users fetched successfully",users);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
