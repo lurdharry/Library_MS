@@ -14,7 +14,7 @@ import java.util.Date;
 @Service
 public class JwtUtil {
     @Value("${jwt.secret:#{systemEnvironment['JWT_SECRET']}}")
-    private static String SECRET_KEY;
+    private String SECRET_KEY;
 
     private SecretKey getSigningKey(){
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
