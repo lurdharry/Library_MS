@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 public record BookRequest(
+        String id,
+
         @NotNull(message = "author is required")
         String author,
 
@@ -13,7 +15,6 @@ public record BookRequest(
 
         @NotNull(message = "quantity is required")
         @Positive(message = "Quantity must be a positive number")
-        @Min(value = 1, message = "Quantity must be at least 1")
         Integer quantity
 ) {
 }

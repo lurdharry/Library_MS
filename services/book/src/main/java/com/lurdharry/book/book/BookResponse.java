@@ -8,7 +8,6 @@ public record BookResponse(
          String title,
          String author,
          Integer quantity,
-         Integer borrowedCopies,
-         Integer availableCopies
+         Integer borrowedCopies
 ) {
 }
