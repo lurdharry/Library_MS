@@ -2,10 +2,16 @@ package com.lurdharry.book.book;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.LocalDateTime;
 
 @Document
 @Data
@@ -19,13 +25,14 @@ public class Book {
 
     private String title;
     private String author;
+
+
     private Integer quantity;
     private Integer borrowedCopies;
 
-    @Transient
-    public Integer getAvailableCopies(){
-        Integer a = quantity != null ? quantity :0;
-        Integer b = borrowedCopies != null ? borrowedCopies :0;
-        return a-b;
-    }
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
 }
