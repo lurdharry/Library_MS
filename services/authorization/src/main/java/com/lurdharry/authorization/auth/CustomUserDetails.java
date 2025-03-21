@@ -1,6 +1,6 @@
 package com.lurdharry.authorization.auth;
 
-import com.lurdharry.authorization.user.Role;
+import com.lurdharry.authorization.model.Role;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

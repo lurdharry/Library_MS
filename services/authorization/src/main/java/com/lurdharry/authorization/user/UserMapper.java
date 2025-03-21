@@ -1,5 +1,6 @@
 package com.lurdharry.authorization.user;
 
+import com.lurdharry.authorization.model.User;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

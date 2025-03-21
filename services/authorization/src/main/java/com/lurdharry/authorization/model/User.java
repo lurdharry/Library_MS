@@ -1,4 +1,4 @@
-package com.lurdharry.authorization.user;
+package com.lurdharry.authorization.model;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,7 +19,7 @@ import java.util.UUID;
 @Table(
         name = "users",
         uniqueConstraints = {
-            @UniqueConstraint(columnNames = "email")
+            @UniqueConstraint(columnNames = {"email","id"})
         }
 )
 public class User {
@@ -37,6 +37,8 @@ public class User {
 
     private String lastname;
 
+    private boolean verified;
+
     @CreatedDate
     @Column(updatable = false,nullable = false)
     private LocalDateTime createdAt;
@@ -45,7 +47,7 @@ public class User {
     @Column(insertable = false)
     private LocalDateTime lastUpdated;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Role role;
+    @ManyToOne
+    @JoinColumn(name = "role-id",nullable = false )
+    private RoleEntity role;
 }
