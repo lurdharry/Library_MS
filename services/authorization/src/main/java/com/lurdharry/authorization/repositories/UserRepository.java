@@ -1,4 +1,4 @@
-package com.lurdharry.authorization.user;
+package com.lurdharry.authorization.repositories;
 
 import com.lurdharry.authorization.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;

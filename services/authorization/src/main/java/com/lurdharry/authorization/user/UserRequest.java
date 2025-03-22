@@ -10,9 +10,6 @@ public record UserRequest(
         String email,
 
         @NotNull(message = "Password is required")
-        String password,
-
-        @NotNull(message = "Role is required")
-        Role role
+        String password
 ) {
 }

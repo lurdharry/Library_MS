@@ -1,7 +1,7 @@
 package com.lurdharry.authorization.auth;
 
 import com.lurdharry.authorization.model.User;
-import com.lurdharry.authorization.user.UserRepository;
+import com.lurdharry.authorization.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

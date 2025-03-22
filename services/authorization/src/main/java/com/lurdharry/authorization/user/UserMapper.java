@@ -17,7 +17,6 @@ public class UserMapper {
         return User.builder()
                 .email(request.email())
                 .password(encoder.encode(request.password()))
-                .role(request.role())
                 .build();
     }
 
