@@ -25,7 +25,7 @@ public class AuthService {
             throw new EmailAlreadyExistsException("Email already exists!");
         }
 
-        var encodedDetails = mapper.toUserWithEncodedPassword(request);
+        var encodedDetails = mapper.toUserWithEncodedPassword(request, role);
 
         repository.save(encodedDetails);
     }

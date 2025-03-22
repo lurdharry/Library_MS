@@ -1,4 +1,4 @@
-package com.lurdharry.authorization.auth;
+package com.lurdharry.authorization.security;
 
 import com.lurdharry.authorization.model.User;
 import com.lurdharry.authorization.repositories.UserRepository;

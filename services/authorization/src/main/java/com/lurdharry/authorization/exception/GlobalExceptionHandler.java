@@ -15,7 +15,18 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(ResponseDTO.builder()
-                        .status(HttpStatus.CONFLICT)
+                        .status(HttpStatus.CONFLICT.value())
+                        .message(exception.getMessage())
+                        .build()
+                );
+    }
+
+    @ExceptionHandler(ResponseException.class)
+    public ResponseEntity<ResponseDTO> handleException (ResponseException exception){
+
+        return ResponseEntity.status(exception.getStatus())
+                .body(ResponseDTO.builder()
+                        .status(exception.getStatusCode())
                         .message(exception.getMessage())
                         .build()
                 );

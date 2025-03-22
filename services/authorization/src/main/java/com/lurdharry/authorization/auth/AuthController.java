@@ -1,6 +1,7 @@
 package com.lurdharry.authorization.auth;
 
 import com.lurdharry.authorization.dto.ResponseDTO;
+import com.lurdharry.authorization.security.CustomUserDetails;
 import com.lurdharry.authorization.user.UserRequest;
 import com.lurdharry.authorization.util.JwtUtil;
 import jakarta.validation.Valid;
@@ -33,7 +34,7 @@ public class AuthController {
           service.registerUser(request);
 
           ResponseDTO response = ResponseDTO.builder()
-                  .status(HttpStatus.OK)
+                  .status(HttpStatus.OK.value())
                   .message("User registered successfully.")
                   .build();
 

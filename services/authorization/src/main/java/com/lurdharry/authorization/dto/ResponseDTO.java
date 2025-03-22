@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record ResponseDTO (
-        HttpStatus status,
+        Integer status,
         String message,
         Object data
 ) {
