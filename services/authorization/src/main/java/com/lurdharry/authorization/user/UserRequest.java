@@ -1,6 +1,5 @@
 package com.lurdharry.authorization.user;
 
-import com.lurdharry.authorization.model.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 
