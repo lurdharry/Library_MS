@@ -1,7 +1,5 @@
 package com.lurdharry.authorization.user;
 
-import com.lurdharry.authorization.model.RoleEntity;
-import com.lurdharry.authorization.model.User;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,6 +10,7 @@ import org.springframework.stereotype.Service;
 public class UserMapper {
 
     private final PasswordEncoder encoder;
+
     public User toUserWithEncodedPassword (@Valid  UserRequest request, RoleEntity role, boolean verified){
 
         return User.builder()
@@ -23,4 +22,15 @@ public class UserMapper {
     }
 
 
+    public UserResponse toUserResponse(User user) {
+
+        return  UserResponse.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .firstname(user.getFirstname())
+                .lastname(user.getLastname())
+                .verified(user.isVerified())
+                .role(user.getRole().getName())
+                .build();
+    }
 }
