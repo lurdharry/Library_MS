@@ -1,4 +1,4 @@
-package com.lurdharry.authorization.model;
+package com.lurdharry.authorization.user;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -48,6 +48,6 @@ public class User {
     private LocalDateTime lastUpdated;
 
     @ManyToOne
-    @JoinColumn(name = "role-id",nullable = false )
+    @JoinColumn(name = "role_id",nullable = false )
     private RoleEntity role;
 }

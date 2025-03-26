@@ -1,4 +1,4 @@
-package com.lurdharry.authorization.model;
+package com.lurdharry.authorization.user;
 
 
 import jakarta.persistence.*;
@@ -23,8 +23,9 @@ public class RoleEntity {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false,unique = true)
-    private String name;
+    private Role name;
 
 
     @ManyToMany

@@ -1,4 +1,4 @@
-package com.lurdharry.authorization.model;
+package com.lurdharry.authorization.user;
 
 import jakarta.persistence.*;
 import lombok.*;

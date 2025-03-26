@@ -1,7 +1,5 @@
-package com.lurdharry.authorization.repositories;
+package com.lurdharry.authorization.user;
 
-import com.lurdharry.authorization.model.Permission;
-import jakarta.annotation.PostConstruct;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
