@@ -1,8 +1,10 @@
 package com.lurdharry.authorization.security;
 
-import com.lurdharry.authorization.model.User;
-import com.lurdharry.authorization.repositories.UserRepository;
+import com.lurdharry.authorization.exception.ResponseException;
+import com.lurdharry.authorization.user.User;
+import com.lurdharry.authorization.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,9 +20,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = repository.findByEmail(email).orElseThrow(
-                ()-> new UsernameNotFoundException("User not found!")
+                ()-> new ResponseException("User not found!", HttpStatus.NOT_FOUND)
         );
 
-        return  new CustomUserDetails(user.getEmail(),user.getPassword(),user.getRole());
+        return  new CustomUserDetails(user);
     }
 }
