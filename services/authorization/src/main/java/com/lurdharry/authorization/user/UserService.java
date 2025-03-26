@@ -6,7 +6,6 @@ import com.lurdharry.authorization.exception.ResponseException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,10 +15,9 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
     private final RoleEntityRepository entityRepository;
-    private final PasswordEncoder passwordEncoder;
     private final UserMapper mapper;
 
-    public UserResponse registerUser(UserRequest request){
+    public void registerUser(UserRequest request){
 
         if (userRepository.findByEmail(request.email()).isPresent()){
             throw new EmailAlreadyExistsException("Email already exists!");
@@ -33,7 +31,7 @@ public class UserService {
 
         var user = userRepository.save(userToBeAdded);
 
-        return mapper.toUserResponse(user);
+        mapper.toUserResponse(user);
     }
 
 
@@ -55,9 +53,6 @@ public class UserService {
         return mapper.toUserResponse(user);
     }
 
-    public Optional<User> findByEmail(String email){
-        return userRepository.findByEmail(email);
-    }
 
 //    // admin only
     public UserResponse updateUserRole(@Valid UpdateRoleReq request){
