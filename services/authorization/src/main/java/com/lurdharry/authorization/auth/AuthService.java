@@ -29,9 +29,6 @@ public class AuthService {
     private final CustomUserDetailsService customUserDetailsService;
 
 
-    Instant now = Instant.now();
-    Instant accessExpiry = now.plus(Duration.ofMinutes(30));
-    Instant refreshExpiry = now.plus(Duration.ofDays(1));
 
 
     public TokenResponse authorizeLogin(@Valid UserRequest request){
@@ -83,7 +80,10 @@ public class AuthService {
 
     // utility function
     private TokenResponse buildAccessTokenAndRefreshToken (Authentication  authentication){
-        System.out.println("sbssjsjsjsjjs     "+authentication.getName());
+        Instant now = Instant.now();
+        Instant accessExpiry = now.plus(Duration.ofMinutes(60));
+        Instant refreshExpiry = now.plus(Duration.ofDays(2));
+
         JwtClaimsSet accessClaim = JwtClaimsSet.builder()
 //                .issuer("http://localhost:8070")
                 .issuedAt(now)
