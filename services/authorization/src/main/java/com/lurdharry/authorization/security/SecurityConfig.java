@@ -8,18 +8,22 @@ import com.nimbusds.jose.proc.SecurityContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
+import org.springframework.security.oauth2.jwt.*;
+import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Configuration
@@ -38,15 +42,34 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/.well-known/**", "/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .userDetailsService(customUserDetailsService)
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(
+                        jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())
+                ))
                 .csrf(AbstractHttpConfigurer::disable);
 
         return http.build();
     }
+
+    @Bean
+    public Converter<Jwt, ? extends AbstractAuthenticationToken> jwtAuthenticationConverter() {
+        JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
+        // Configure it to extract authorities from the "roles" claim:
+        converter.setJwtGrantedAuthoritiesConverter(jwt -> {
+            List<String> roles = jwt.getClaimAsStringList("roles");
+            if (roles == null) {
+                roles = List.of();
+            }
+            return roles.stream()
+                    .map(SimpleGrantedAuthority::new)
+                    .collect(Collectors.toList());
+        });
+        return converter;
+    }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -61,7 +84,7 @@ public class SecurityConfig {
     @Bean
     public JwtEncoder jwtEncoder(RSAKey rsaKey) throws Exception {
 
-        JWKSource<SecurityContext> jwkSource = new ImmutableJWKSet<>(new com.nimbusds.jose.jwk.JWKSet(rsaKey));
+        JWKSource<SecurityContext> jwkSource = new ImmutableJWKSet<>(new JWKSet(rsaKey));
         return new NimbusJwtEncoder(jwkSource);
     }
 
@@ -74,6 +97,14 @@ public class SecurityConfig {
     public JWKSource<?> jwkSource(RSAKey rsaKey) throws Exception {
         JWKSet jwkSet = new JWKSet(rsaKey);
         return new ImmutableJWKSet<>(jwkSet);
+    }
+
+    @Bean
+    public AuthorizationServerSettings providerSettings() {
+        return AuthorizationServerSettings.builder()
+                .issuer("http://localhost:8070")
+                .jwkSetEndpoint("/.well-known/jwks.json")
+                .build();
     }
 
 }
