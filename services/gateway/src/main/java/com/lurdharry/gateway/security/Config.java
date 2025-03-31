@@ -25,7 +25,7 @@ public class Config {
                 .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
                 .authorizeExchange(exchange -> exchange
                         // Permit public endpoints (if any)
-                        .pathMatchers("/auth/**","/.well-known/**").permitAll()
+                        .pathMatchers("/.well-known/**", "/auth/register", "/auth/login", "/auth/refreshToken").permitAll()
                         // All other endpoints must be authenticated
                         .anyExchange().authenticated()
                 ) .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt ->
