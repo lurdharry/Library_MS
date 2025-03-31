@@ -3,6 +3,8 @@ package com.lurdharry.authorization.auth;
 import com.lurdharry.authorization.dto.TokenResponse;
 import com.lurdharry.authorization.exception.ResponseException;
 import com.lurdharry.authorization.security.CustomUserDetailsService;
+import com.lurdharry.authorization.user.User;
+import com.lurdharry.authorization.user.UserRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,6 +13,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +30,8 @@ public class AuthService {
     private final JwtEncoder jwtEncoder;
     private final JwtDecoder jwtDecoder;
     private final CustomUserDetailsService customUserDetailsService;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
 
     public TokenResponse authorizeLogin(@Valid LoginRequest request){
@@ -75,6 +81,26 @@ public class AuthService {
         return buildAccessTokenAndRefreshToken(auth);
     }
 
+    public void updatePassword(UpdatePassRequest request,String email) {
+        //check if email exist
+        User user = userRepository.findByEmail(email).orElseThrow(
+                ()-> new UsernameNotFoundException("User not found")
+        );
+
+        // check the encoded old password from req against  encoded password in the db
+        if (!passwordEncoder.matches(request.oldPassword(), user.getPassword())){
+            throw new ResponseException("Old password is incorrect",HttpStatus.UNAUTHORIZED);
+        }
+
+        // encode new password and save it
+        user.setPassword(passwordEncoder.encode(request.newPassword()));
+
+        userRepository.save(user);
+
+        // TODO send email notification for successful password change
+
+    }
+
     // utility function
     private TokenResponse buildAccessTokenAndRefreshToken (Authentication  authentication){
         Instant now = Instant.now();
@@ -109,4 +135,6 @@ public class AuthService {
                 .expiresIn(String.valueOf(Duration.between(now,accessExpiry).getSeconds()))
                 .build();
     }
+
+
 }
