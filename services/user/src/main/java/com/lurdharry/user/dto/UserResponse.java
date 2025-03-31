@@ -13,6 +13,7 @@ public record UserResponse(
         String email,
         String firstname,
         String lastname,
-        Role role
+        Role role,
+        boolean verified
 ) {
 }

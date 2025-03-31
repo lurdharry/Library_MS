@@ -10,15 +10,7 @@ import static io.micrometer.common.util.StringUtils.isNotBlank;
 @Service
 public class UserMapper {
 
-    public UserResponse toUserResponse(User user) {
-        return UserResponse.builder()
-                .email(user.getEmail())
-                .firstname(user.getFirstname())
-                .lastname(user.getLastname())
-                .id(user.getId())
-                .role(user.getRole().getName())
-                .build();
-    }
+
 
     public void mergeUser(User user, @Valid UserRequest request) {
         if (isNotBlank(request.firstname())){
@@ -27,5 +19,16 @@ public class UserMapper {
         if (isNotBlank(request.lastname())){
             user.setLastname(request.lastname());
         }
+    }
+
+    public UserResponse toUserResponse(User user) {
+        return  UserResponse.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .firstname(user.getFirstname())
+                .lastname(user.getLastname())
+                .verified(user.isVerified())
+                .role(user.getRole().getName())
+                .build();
     }
 }
