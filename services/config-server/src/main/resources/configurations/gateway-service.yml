@@ -8,11 +8,11 @@ spring:
         - id: auth-service
           uri: lb:http://AUTH-SERVICE
           predicates:
-            - Path=/auth/**,/admin/**
+            - Path=/auth/**
         - id: user-service
           uri: lb:http://USER-SERVICE
           predicates:
-            - Path=/users/**
+            - Path=/users/**,/admin/**
 
 management:
   endpoints:
