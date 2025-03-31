@@ -82,7 +82,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public JwtEncoder jwtEncoder(RSAKey rsaKey) throws Exception {
+    public JwtEncoder jwtEncoder(RSAKey rsaKey) {
 
         JWKSource<SecurityContext> jwkSource = new ImmutableJWKSet<>(new JWKSet(rsaKey));
         return new NimbusJwtEncoder(jwkSource);
@@ -94,7 +94,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public JWKSource<?> jwkSource(RSAKey rsaKey) throws Exception {
+    public JWKSource<?> jwkSource(RSAKey rsaKey) {
         JWKSet jwkSet = new JWKSet(rsaKey);
         return new ImmutableJWKSet<>(jwkSet);
     }
