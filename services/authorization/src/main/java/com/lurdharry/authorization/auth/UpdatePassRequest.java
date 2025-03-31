@@ -14,7 +14,7 @@ public record UpdatePassRequest(
 ) {
 
     @AssertTrue(message = "New password and confirmation password do not match")
-    public boolean doesPasswordMatch(){
+    public boolean isPasswordsMatching(){
         return newPassword != null && newPassword.equals(confirmNewPassword);
     }
 
