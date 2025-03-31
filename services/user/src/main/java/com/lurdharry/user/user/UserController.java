@@ -6,7 +6,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
@@ -17,8 +20,9 @@ public class UserController {
 
 
     @GetMapping("/{user-id}")
+    @PreAuthorize("hasAuthority('VIEW_PROFILE')")
     public ResponseEntity<ResponseDTO>findById(
-            @PathVariable("user-id")String userId
+            @PathVariable("user-id") UUID userId
     ){
         var userResponse = userService.findById(userId);
 
@@ -28,6 +32,7 @@ public class UserController {
     }
 
     @PutMapping
+    @PreAuthorize("hasAuthority('VIEW_PROFILE')")
     public ResponseEntity<ResponseDTO> updateUser(
            @RequestBody @Valid UserRequest request
     ){
@@ -39,11 +44,5 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity<ResponseDTO> getAllUsers(){
-        var users = userService.getAllUsers();
-        ResponseDTO response = new ResponseDTO(HttpStatus.OK.value(), "users fetched successfully",users);
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
 }
