@@ -3,11 +3,13 @@ package com.lurdharry.authorization.auth;
 import com.lurdharry.authorization.dto.ResponseDTO;
 import com.lurdharry.authorization.dto.TokenResponse;
 import com.lurdharry.authorization.user.UserRequest;
+import com.lurdharry.authorization.user.UserResponse;
 import com.lurdharry.authorization.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +22,6 @@ public class AuthController {
 
     private final UserService service;
     private final AuthService authService;
-
 
     @PostMapping("/register")
     public ResponseEntity<ResponseDTO> register (
@@ -37,7 +38,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenResponse> login(@RequestBody @Valid UserRequest request){
+    public ResponseEntity<TokenResponse> login(@RequestBody @Valid LoginRequest request){
 
        var response = authService.authorizeLogin(request);
 
@@ -53,5 +54,18 @@ public class AuthController {
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
+    @PostMapping("/admin/create-attendant")
+    @PreAuthorize("hasAuthority('ADMIN_CREATE_USER')")
+    public ResponseEntity<?> createUser( @RequestBody @Valid UserRequest request){
+        UserResponse res = service.createAttendant(request);
+
+        ResponseDTO response = ResponseDTO.builder()
+                .status(HttpStatus.OK.value())
+                .message("Attendant registered successfully.")
+                .data(res)
+                .build();
+
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
 
 }

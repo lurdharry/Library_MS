@@ -3,7 +3,6 @@ package com.lurdharry.authorization.auth;
 import com.lurdharry.authorization.dto.TokenResponse;
 import com.lurdharry.authorization.exception.ResponseException;
 import com.lurdharry.authorization.security.CustomUserDetailsService;
-import com.lurdharry.authorization.user.UserRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,9 +28,7 @@ public class AuthService {
     private final CustomUserDetailsService customUserDetailsService;
 
 
-
-
-    public TokenResponse authorizeLogin(@Valid UserRequest request){
+    public TokenResponse authorizeLogin(@Valid LoginRequest request){
 
         try {
             Authentication auth = authenticationManager.authenticate(

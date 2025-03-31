@@ -42,7 +42,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/.well-known/**", "/auth/**").permitAll()
+                        .requestMatchers("/.well-known/**", "/auth/register", "/auth/login", "/auth/refreshToken").permitAll()
                         .anyRequest().authenticated()
                 )
                 .userDetailsService(customUserDetailsService)
