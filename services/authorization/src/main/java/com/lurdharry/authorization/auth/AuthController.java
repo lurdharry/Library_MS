@@ -56,7 +56,7 @@ public class AuthController {
     }
 
     @PostMapping("/updatePassword")
-    @PreAuthorize("UPDATE_PROFILE")
+    @PreAuthorize("hasAuthority('UPDATE_PROFILE')")
     public ResponseEntity<?> updatePassword(
             @RequestBody @Valid UpdatePassRequest request, Authentication authentication){
 
