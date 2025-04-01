@@ -17,7 +17,7 @@ import java.util.List;
 public class BookController {
     private final BookService service;
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<ResponseDTO> createBook(
             @RequestBody @Valid BookRequest request
     ){
@@ -36,7 +36,8 @@ public class BookController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping
+    @GetMapping("/all")
+//    @PreAuthorize("hasAuthority('VIEW_BOOKS')")
     public ResponseEntity<ResponseDTO> getBooks(
 
     ){
