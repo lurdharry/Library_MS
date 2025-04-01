@@ -1,4 +1,4 @@
-package com.lurdharry.library.verification;
+package com.lurdharry.authorization.verification;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
