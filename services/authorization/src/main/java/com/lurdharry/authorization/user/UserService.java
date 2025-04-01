@@ -23,7 +23,7 @@ public class UserService {
                 () -> new ResponseException("USER role not found", HttpStatus.NOT_FOUND)
         );
 
-        User userToBeAdded =  mapper.toUserWithEncodedPassword(request,role,true);
+        User userToBeAdded =  mapper.toUserWithEncodedPassword(request,role,false);
 
         var user = userRepository.save(userToBeAdded);
 
