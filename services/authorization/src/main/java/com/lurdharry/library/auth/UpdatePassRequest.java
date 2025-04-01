@@ -1,4 +1,4 @@
-package com.lurdharry.library.auth;
+package com.lurdharry.authorization.auth;
 
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;

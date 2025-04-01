@@ -1,6 +1,6 @@
-package com.lurdharry.library.verification;
+package com.lurdharry.authorization.verification;
 
-import com.lurdharry.library.dto.ResponseDTO;
+import com.lurdharry.authorization.dto.ResponseDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

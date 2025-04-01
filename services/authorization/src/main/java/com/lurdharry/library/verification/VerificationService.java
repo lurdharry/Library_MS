@@ -1,8 +1,8 @@
-package com.lurdharry.library.verification;
+package com.lurdharry.authorization.verification;
 
-import com.lurdharry.library.exception.ResponseException;
-import com.lurdharry.library.user.User;
-import com.lurdharry.library.user.UserRepository;
+import com.lurdharry.authorization.exception.ResponseException;
+import com.lurdharry.authorization.user.User;
+import com.lurdharry.authorization.user.UserRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
