@@ -4,15 +4,9 @@ import com.lurdharry.authorization.dto.ResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -57,36 +51,6 @@ public class GlobalExceptionHandler {
                         .message(ex.getMessage())
                         .build()
                 );
-    }
-
-    @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<ResponseDTO> handleWrongPassword(BadCredentialsException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(ResponseDTO.builder()
-                        .status(HttpStatus.BAD_REQUEST.value())
-                        .message(ex.getMessage())
-                        .build()
-                );
-    }
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ResponseDTO> handleValidException (MethodArgumentNotValidException ex){
-
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach(error ->{
-            String message =  error.getDefaultMessage();
-            String fieldName =  ((FieldError) error).getField();
-
-            errors.put(fieldName,message);
-        } );
-
-        return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                ResponseDTO.builder()
-                        .status(HttpStatus.BAD_REQUEST.value())
-                        .data(errors)
-                        .build()
-        );
-
     }
 
 }
