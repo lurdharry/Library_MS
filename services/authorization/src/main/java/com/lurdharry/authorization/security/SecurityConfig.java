@@ -42,7 +42,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/.well-known/**", "/auth/register", "/auth/login", "/auth/refreshToken").permitAll()
+                        .requestMatchers("/.well-known/**", "/auth/register", "/auth/login", "/auth/refreshToken","/email/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .userDetailsService(customUserDetailsService)
@@ -82,7 +82,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public JwtEncoder jwtEncoder(RSAKey rsaKey) throws Exception {
+    public JwtEncoder jwtEncoder(RSAKey rsaKey) {
 
         JWKSource<SecurityContext> jwkSource = new ImmutableJWKSet<>(new JWKSet(rsaKey));
         return new NimbusJwtEncoder(jwkSource);
@@ -94,7 +94,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public JWKSource<?> jwkSource(RSAKey rsaKey) throws Exception {
+    public JWKSource<?> jwkSource(RSAKey rsaKey) {
         JWKSet jwkSet = new JWKSet(rsaKey);
         return new ImmutableJWKSet<>(jwkSet);
     }

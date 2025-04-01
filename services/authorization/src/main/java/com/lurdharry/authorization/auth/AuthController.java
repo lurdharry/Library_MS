@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,6 +53,24 @@ public class AuthController {
         var response = authService.refreshToken(request);
 
         return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+
+    @PostMapping("/updatePassword")
+    @PreAuthorize("hasAuthority('UPDATE_PROFILE')")
+    public ResponseEntity<?> updatePassword(
+            @RequestBody @Valid UpdatePassRequest request, Authentication authentication){
+
+
+        String email = authentication.getName();
+
+        authService.updatePassword(request,email);
+
+        ResponseDTO response = ResponseDTO.builder()
+                .status(HttpStatus.ACCEPTED.value())
+                .message("password updated successfully")
+                .build();
+
+        return new ResponseEntity<>(response,HttpStatus.ACCEPTED);
     }
 
     @PostMapping("/admin/create-attendant")
