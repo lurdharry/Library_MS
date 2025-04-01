@@ -55,10 +55,10 @@ public class BookService {
 
     public List<BookBorrowResponse> borrowBook(@Valid List<BookBorrowRequest> request) {
 //        get all ids from request
-        var bookIds = request.stream().map(BookBorrowRequest::bookId).toList();
+          var bookIds = request.stream().map(BookBorrowRequest::bookId).toList();
 
 //        find all books
-        var books = repository.findAllByIdInOrderId(bookIds);
+        var books = repository.findAllById(bookIds);
 
         // check if all books are in catalog
         if (bookIds.size() != books.size()){
