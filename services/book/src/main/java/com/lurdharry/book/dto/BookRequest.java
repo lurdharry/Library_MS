@@ -1,12 +1,9 @@
 package com.lurdharry.book.dto;
 
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 public record BookRequest(
-        String id,
-
         @NotNull(message = "author is required")
         String author,
 
