@@ -6,7 +6,7 @@ spring:
           password: lurdharry
           host: localhost
           port: 27017
-          database: customer
+          database: books
           authentication-database: admin
 server:
   port: 8090
