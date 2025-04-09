@@ -1,7 +1,6 @@
 spring:
   data:
       mongodb:
-        mongodb:
           username: lurdharry
           password: lurdharry
           host: localhost
