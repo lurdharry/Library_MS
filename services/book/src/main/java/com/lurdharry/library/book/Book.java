@@ -1,4 +1,4 @@
-package com.lurdharry.book.book;
+package com.lurdharry.library.book;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

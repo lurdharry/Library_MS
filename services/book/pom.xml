@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.lurdharry</groupId>
-	<artifactId>book</artifactId>
+	<artifactId>library</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>book</name>
+	<name>book-service</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>

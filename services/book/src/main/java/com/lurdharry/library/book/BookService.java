@@ -1,8 +1,8 @@
-package com.lurdharry.book.book;
+package com.lurdharry.library.book;
 
-import com.lurdharry.book.dto.BookRequest;
-import com.lurdharry.book.dto.UpdateBookRequest;
-import com.lurdharry.book.exception.ResponseException;
+import com.lurdharry.library.dto.BookRequest;
+import com.lurdharry.library.dto.UpdateBookRequest;
+import com.lurdharry.library.exception.ResponseException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
