@@ -1,7 +1,7 @@
-package com.lurdharry.borrow.order;
+package com.lurdharry.library.order;
 
 
-import com.lurdharry.borrow.borrowline.BorrowLine;
+import com.lurdharry.library.borrowline.BorrowLine;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import org.springframework.data.annotation.CreatedDate;

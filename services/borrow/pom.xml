@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.lurdharry</groupId>
-	<artifactId>borrow</artifactId>
+	<artifactId>library</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>borrow</name>
+	<name>borrow-service</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
