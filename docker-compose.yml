@@ -33,7 +33,7 @@ services:
     container_name: library_ms_mongodb
     image: mongo
     volumes:
-      - library_mongo_data:/data
+      - library_mongo_data:/data/db
     ports:
       - 27017:27017
     environment:
