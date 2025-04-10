@@ -1,10 +1,10 @@
-package com.lurdharry.authorization.auth;
+package com.lurdharry.library.auth;
 
-import com.lurdharry.authorization.dto.TokenResponse;
-import com.lurdharry.authorization.exception.ResponseException;
-import com.lurdharry.authorization.security.CustomUserDetailsService;
-import com.lurdharry.authorization.user.User;
-import com.lurdharry.authorization.user.UserRepository;
+import com.lurdharry.library.dto.TokenResponse;
+import com.lurdharry.library.exception.ResponseException;
+import com.lurdharry.library.security.CustomUserDetailsService;
+import com.lurdharry.library.user.User;
+import com.lurdharry.library.user.UserRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

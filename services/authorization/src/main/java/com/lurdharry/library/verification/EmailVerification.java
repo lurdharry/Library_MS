@@ -1,4 +1,4 @@
-package com.lurdharry.authorization.verification;
+package com.lurdharry.library.verification;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
