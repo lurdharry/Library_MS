@@ -1,4 +1,4 @@
-package com.lurdharry.configserver;
+package com.lurdharry.library;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
