@@ -53,6 +53,7 @@ public class BookService {
     }
 
 
+
     public List<BookBorrowResponse> borrowBook(@Valid List<BookBorrowRequest> request) {
 //        get all ids from request
           var bookIds = request.stream().map(BookBorrowRequest::bookId).toList();
