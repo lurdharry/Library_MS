@@ -17,7 +17,7 @@ public class BorrowLine {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "borrow_transaction_id")
+    @JoinColumn(name = "borrow_order_id")
     private BorrowOrder borrowOrder;
 
     private String bookId;
