@@ -1,4 +1,4 @@
-package com.lurdharry.book.dto;
+package com.lurdharry.library.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;

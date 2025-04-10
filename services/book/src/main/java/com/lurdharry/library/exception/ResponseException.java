@@ -1,4 +1,4 @@
-package com.lurdharry.book.exception;
+package com.lurdharry.library.exception;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

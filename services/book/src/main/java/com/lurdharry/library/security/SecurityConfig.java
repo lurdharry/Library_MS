@@ -1,4 +1,4 @@
-package com.lurdharry.book.security;
+package com.lurdharry.library.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
