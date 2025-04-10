@@ -11,6 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 
 @Getter
@@ -30,15 +31,20 @@ public class BorrowOrder {
 
     private String reference;
 
-    private String borrowerId;
+    private UUID userId;
 
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "borrowTransaction")
     private List<BorrowLine> borrowLines;
+
+    @Enumerated(EnumType.STRING)
+    private ApprovalStatus status;
 
     @CreatedDate
     @Column(updatable = false,nullable = false)
     private LocalDateTime borrowDate;
+
+    private LocalDateTime dueDate;
 
     @LastModifiedDate
     @Column(insertable = false)
