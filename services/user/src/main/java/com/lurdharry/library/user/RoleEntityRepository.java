@@ -1,4 +1,4 @@
-package com.lurdharry.user.user;
+package com.lurdharry.library.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,6 +1,6 @@
-package com.lurdharry.user.admin;
+package com.lurdharry.library.admin;
 
-import com.lurdharry.user.user.Role;
+import com.lurdharry.library.user.Role;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;

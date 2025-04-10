@@ -1,8 +1,8 @@
-package com.lurdharry.user.admin;
+package com.lurdharry.library.admin;
 
 
-import com.lurdharry.user.dto.UserResponse;
-import com.lurdharry.user.user.UserService;
+import com.lurdharry.library.dto.UserResponse;
+import com.lurdharry.library.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,7 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import com.lurdharry.user.dto.ResponseDTO;
+import com.lurdharry.library.dto.ResponseDTO;
 
 @RestController
 @RequestMapping("/admin")
