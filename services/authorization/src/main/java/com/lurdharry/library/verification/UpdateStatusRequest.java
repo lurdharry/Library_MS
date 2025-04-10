@@ -1,4 +1,4 @@
-package com.lurdharry.authorization.verification;
+package com.lurdharry.library.verification;
 
 import jakarta.validation.constraints.NotNull;
 

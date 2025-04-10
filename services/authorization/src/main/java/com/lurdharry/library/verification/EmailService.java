@@ -1,4 +1,4 @@
-package com.lurdharry.authorization.verification;
+package com.lurdharry.library.verification;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
