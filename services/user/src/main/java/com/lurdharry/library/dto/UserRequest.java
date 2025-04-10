@@ -1,4 +1,4 @@
-package com.lurdharry.user.dto;
+package com.lurdharry.library.dto;
 
 import jakarta.validation.constraints.NotNull;
 

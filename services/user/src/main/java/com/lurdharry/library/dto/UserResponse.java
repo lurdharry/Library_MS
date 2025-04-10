@@ -1,7 +1,7 @@
-package com.lurdharry.user.dto;
+package com.lurdharry.library.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.lurdharry.user.user.Role;
+import com.lurdharry.library.user.Role;
 import lombok.Builder;
 
 import java.util.UUID;
