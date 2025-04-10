@@ -1,7 +1,7 @@
-package com.lurdharry.book.book;
+package com.lurdharry.library.book;
 
-import com.lurdharry.book.dto.BookRequest;
-import com.lurdharry.book.dto.UpdateBookRequest;
+import com.lurdharry.library.dto.BookRequest;
+import com.lurdharry.library.dto.UpdateBookRequest;
 import jakarta.validation.Valid;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
