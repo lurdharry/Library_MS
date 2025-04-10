@@ -1,7 +1,7 @@
-package com.lurdharry.user.user;
+package com.lurdharry.library.user;
 
-import com.lurdharry.user.dto.ResponseDTO;
-import com.lurdharry.user.dto.UserRequest;
+import com.lurdharry.library.dto.ResponseDTO;
+import com.lurdharry.library.dto.UserRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

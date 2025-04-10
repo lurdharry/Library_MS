@@ -1,9 +1,9 @@
-package com.lurdharry.user.admin;
+package com.lurdharry.library.admin;
 
 
-import com.lurdharry.user.dto.UserResponse;
-import com.lurdharry.user.exception.ResponseException;
-import com.lurdharry.user.user.*;
+import com.lurdharry.library.dto.UserResponse;
+import com.lurdharry.library.exception.ResponseException;
+import com.lurdharry.library.user.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

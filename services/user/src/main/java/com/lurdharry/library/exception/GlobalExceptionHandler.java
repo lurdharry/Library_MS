@@ -1,6 +1,6 @@
-package com.lurdharry.user.exception;
+package com.lurdharry.library.exception;
 
-import com.lurdharry.user.dto.ResponseDTO;
+import com.lurdharry.library.dto.ResponseDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

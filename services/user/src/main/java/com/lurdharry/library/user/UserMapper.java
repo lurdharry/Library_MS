@@ -1,7 +1,7 @@
-package com.lurdharry.user.user;
+package com.lurdharry.library.user;
 
-import com.lurdharry.user.dto.UserRequest;
-import com.lurdharry.user.dto.UserResponse;
+import com.lurdharry.library.dto.UserRequest;
+import com.lurdharry.library.dto.UserResponse;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
