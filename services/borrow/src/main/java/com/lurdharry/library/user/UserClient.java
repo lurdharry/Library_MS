@@ -10,7 +10,8 @@ import java.util.UUID;
 
 @FeignClient(
         name = "user-service",
-        url = "${application.config.user-url}"
+        url = "${application.config.user-url}",
+        configuration = FeignClientConfig.class
 )
 public interface UserClient {
 
@@ -20,7 +21,7 @@ public interface UserClient {
      * @param userId The ID of the user.
      * @return A ResponseDTO containing the user details.
      */
-    @GetMapping("/${user-id}")
+    @GetMapping("/{user-id}")
     ResponseDTO getUserById(
             @PathVariable("user-id")UUID userId
     );
