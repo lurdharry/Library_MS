@@ -75,14 +75,16 @@ public class BookService {
 
         for (int i =0; i < sortedReq.size(); i++ ){
             var book = books.get(i);
-            var bookReq = books.get(i);
+            var bookReq = sortedReq.get(i);
 
             var availableCopies = book.getQuantity() - book.getBorrowedCopies();
 
-            if (availableCopies < bookReq.getQuantity()){
+           // check if book quantity is less than 1 (user cant borrow more than one copy of a book)
+            if (availableCopies < 1){
                 throw new ResponseException("Insufficient quantity to borrow",HttpStatus.BAD_REQUEST);
             }
-            book.setBorrowedCopies(book.getBorrowedCopies() + bookReq.getQuantity());
+
+            book.setBorrowedCopies(book.getBorrowedCopies() + 1);
 
             booksToUpdate.add(book);
             borrowBookResponse.add(mapper.toBorrowBookResponse(book));
