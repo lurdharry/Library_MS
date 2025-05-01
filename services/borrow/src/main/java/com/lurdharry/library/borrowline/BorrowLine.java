@@ -4,7 +4,6 @@ import com.lurdharry.library.borrow.BorrowOrder;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,7 +13,7 @@ import java.util.UUID;
 public class BorrowLine {
     @Id
     @GeneratedValue
-    private UUID id;
+    private String id;
 
     @ManyToOne
     @JoinColumn(name = "borrow_order_id")
