@@ -9,7 +9,3 @@ logging:
     org.springframework.security: DEBUG
     org.springframework.cloud.gateway: DEBUG
     org.springframework.web.server: DEBUG
-
-jwt:
-  secret: "your-very-secure-secret-key-at-least-32-characters-long"
-  expiration: 864000000  # 24 hours

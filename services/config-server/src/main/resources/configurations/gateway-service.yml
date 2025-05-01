@@ -12,8 +12,23 @@ spring:
         - id: user-service
           uri: lb:http://USER-SERVICE
           predicates:
-            - Path=/users/**,/admin/**
-
+            - Path=/users/**
+        - id: user-admin-service
+          uri: lb:http://USER-SERVICE
+          predicates:
+            - Path=/admin/**
+        - id: book-service
+          uri: lb:http://BOOK-SERVICE
+          predicates:
+            - Path=/books/**
+        - id: borrow-service
+          uri: lb:http://BORROW-SERVICE
+          predicates:
+            - Path=/borrow/**
+        - id: borrow-lines-service
+          uri: lb:http://BORROW-SERVICE
+          predicates:
+            - Path=/borrow-lines/**
 management:
   endpoints:
     web:

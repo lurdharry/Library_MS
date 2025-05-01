@@ -33,7 +33,7 @@ services:
     container_name: library_ms_mongodb
     image: mongo
     volumes:
-      - library_mongo_data:/data
+      - library_mongo_data:/data/db
     ports:
       - 27017:27017
     environment:
@@ -45,15 +45,17 @@ services:
   mongo-express:
     container_name: library_ms_mongo_express
     image: mongo-express
+    restart: unless-stopped
     ports:
       - 8081:8081
     environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: lurdharry
-      ME_CONFIG_MONGODB_ADMINPASSWORD: lurdharry
-      ME_CONFIG_MONGODB_SERVER: mongodb
-      ME_CONFIG_BASICAUTH_USERNAME: lurdharry
-      ME_CONFIG_BASICAUTH_PASSWORD: lurdharry
-    restart: unless-stopped
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=lurdharry
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=lurdharry
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+      - ME_CONFIG_BASICAUTH_USERNAME=lurdharry
+      - ME_CONFIG_BASICAUTH_PASSWORD=lurdharry
+    networks:
+      - library-ms-net
 
 networks:
   library-ms-net:
