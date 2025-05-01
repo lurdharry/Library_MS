@@ -10,7 +10,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 
 @Getter
@@ -30,22 +29,37 @@ public class BorrowOrder {
 
     private String reference;
 
-    private UUID userId;
+    private String userId;
 
+    @Enumerated(EnumType.STRING)
+    private ApprovalStatus status;
+
+
+    private String approvedBy;
 
     @OneToMany(mappedBy = "borrowOrder")
     private List<BorrowLine> borrowLines;
 
-    @Enumerated(EnumType.STRING)
-    private ApprovalStatus status;
 
     @CreatedDate
     @Column(updatable = false,nullable = false)
     private LocalDateTime borrowDate;
 
-    private LocalDateTime dueDate;
-
     @LastModifiedDate
     @Column(insertable = false)
     private LocalDateTime lastModified;
+
+
+    @Column(nullable = false)
+    private LocalDateTime approvedDate;
+
+    private LocalDateTime dueDate;
+
+
+    public void approve(String adminId, LocalDateTime approvalTime) {
+        this.approvedBy = adminId;
+        this.approvedDate = approvalTime;
+        this.dueDate = approvalTime.plusDays(14);
+        this.status = ApprovalStatus.APPROVED;
+    }
 }
