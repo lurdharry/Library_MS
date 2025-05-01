@@ -23,6 +23,6 @@ public interface UserClient {
      */
     @GetMapping("/{user-id}")
     ResponseDTO getUserById(
-            @PathVariable("user-id")UUID userId
+            @PathVariable("user-id") String userId
     );
 }
