@@ -24,7 +24,13 @@
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/services/authorization/pom.xml" />
+        <option value="$PROJECT_DIR$/services/book/pom.xml" />
+        <option value="$PROJECT_DIR$/services/borrow/pom.xml" />
+        <option value="$PROJECT_DIR$/services/config-server/pom.xml" />
         <option value="$PROJECT_DIR$/services/configserver/pom.xml" />
+        <option value="$PROJECT_DIR$/services/discovery/pom.xml" />
+        <option value="$PROJECT_DIR$/services/user/pom.xml" />
       </set>
     </option>
   </component>

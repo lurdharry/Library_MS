@@ -10,6 +10,7 @@ import lombok.*;
 @Getter
 @Setter
 @Entity
+@Builder
 public class BorrowLine {
     @Id
     @GeneratedValue

@@ -1,5 +1,7 @@
 package com.lurdharry.library.borrow;
 
+import com.lurdharry.library.book.BookBorrowRequest;
+import com.lurdharry.library.borrowline.BorrowLine;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,12 @@ public class BorrowMapper {
                 .reference(request.reference())
                 .userId(request.userId())
                 .status(ApprovalStatus.PENDING)
+                .build();
+    }
+
+    public BookBorrowRequest toBookBorrowrequest(BorrowLine borrowLine) {
+        return BookBorrowRequest.builder()
+                .bookId(borrowLine.getBookId())
                 .build();
     }
 }

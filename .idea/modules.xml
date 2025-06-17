@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Library_MS.iml" filepath="$PROJECT_DIR$/.idea/Library_MS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/services/authorization/authorization.iml" filepath="$PROJECT_DIR$/services/authorization/authorization.iml" />
+      <module fileurl="file://$PROJECT_DIR$/services/book/book.iml" filepath="$PROJECT_DIR$/services/book/book.iml" />
+      <module fileurl="file://$PROJECT_DIR$/services/borrow/borrow.iml" filepath="$PROJECT_DIR$/services/borrow/borrow.iml" />
+      <module fileurl="file://$PROJECT_DIR$/services/config-server/config-server.iml" filepath="$PROJECT_DIR$/services/config-server/config-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/services/discovery/discovery.iml" filepath="$PROJECT_DIR$/services/discovery/discovery.iml" />
+      <module fileurl="file://$PROJECT_DIR$/services/user/user.iml" filepath="$PROJECT_DIR$/services/user/user.iml" />
     </modules>
   </component>
 </project>

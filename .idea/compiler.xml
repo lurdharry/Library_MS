@@ -32,6 +32,14 @@
         <module name="user" />
         <module name="book" />
       </profile>
+      <profile name="Annotation profile for library (4)" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.4.2/spring-boot-configuration-processor-3.4.2.jar" />
+        </processorPath>
+      </profile>
       <profile name="Annotation profile for borrow-service" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -41,9 +49,29 @@
         </processorPath>
         <module name="borrow" />
       </profile>
+      <profile name="Annotation profile for library (6)" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
+        </processorPath>
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="authorization" target="21" />
+      <module name="book" target="21" />
+      <module name="borrow" target="21" />
+      <module name="config-server" target="21" />
       <module name="configserver" target="21" />
+      <module name="discovery" target="21" />
+      <module name="library (1)" target="21" />
+      <module name="library (2)" target="21" />
+      <module name="library (3)" target="21" />
+      <module name="library (4)" target="21" />
+      <module name="library (5)" target="21" />
+      <module name="library (6)" target="21" />
+      <module name="user" target="21" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -55,6 +83,12 @@
       <module name="configserver" options="-parameters" />
       <module name="discovery" options="-parameters" />
       <module name="gateway" options="-parameters" />
+      <module name="library (1)" options="-parameters" />
+      <module name="library (2)" options="-parameters" />
+      <module name="library (3)" options="-parameters" />
+      <module name="library (4)" options="-parameters" />
+      <module name="library (5)" options="-parameters" />
+      <module name="library (6)" options="-parameters" />
       <module name="user" options="-parameters" />
     </option>
   </component>
