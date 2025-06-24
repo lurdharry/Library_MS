@@ -1,6 +1,10 @@
 package com.lurdharry.library.borrow;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lurdharry.library.book.BookBorrowRequest;
+import com.lurdharry.library.book.BookClient;
+import com.lurdharry.library.borrowline.BorrowLineRequest;
+import com.lurdharry.library.borrowline.BorrowLineService;
 import com.lurdharry.library.dto.ResponseDTO;
 import com.lurdharry.library.exception.ResponseException;
 import com.lurdharry.library.user.UserClient;
@@ -20,17 +24,36 @@ public class BorrowService {
     private final ObjectMapper objectMapper;
     private final BorrowRepository borrowRepository;
     private final BorrowMapper mapper;
+    private final BookClient bookClient;
+    private final BorrowLineService borrowLineService;
 
 
 
-    public ResponseDTO borrowBook(@Valid BorrowRequest request) {
-        var user = getVerifiedUser(request.userId());
+    public String orderBook(@Valid BorrowRequest request) {
+//        var user = getVerifiedUser(request.userId());
 
         // borrow the book from book service
+        var borrowedBook = bookClient.borrowBook(request.books());
 
         // persist borrow order
         var borrowOrder =  borrowRepository.save(mapper.toBorrowOrder(request));
 
+
+        // persist borrow line for each book
+        for (BookBorrowRequest bookRequest: request.books()){
+            borrowLineService.saveBorrowLine(
+                    new BorrowLineRequest(
+                            null,
+                            borrowOrder.getId(),
+                            bookRequest.bookId()
+                    )
+            );
+        }
+
+        // send order notification --> notification -ms
+
+
+        return borrowOrder.getId();
 
     }
 

@@ -27,7 +27,6 @@ public class BorrowOrder {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    private String reference;
 
     private String userId;
 
