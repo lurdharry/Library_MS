@@ -54,10 +54,7 @@ public class BookService {
 
 
 
-    public List<BookBorrowResponse> borrowBook(@Valid List<BookBorrowRequest> request) {
-//        get all ids from request
-          var bookIds = request.stream().map(BookBorrowRequest::bookId).toList();
-
+    public List<BookBorrowResponse> borrowBook(@Valid List<String> bookIds) {
 //        find all books
         var books = repository.findAllById(bookIds);
 
@@ -66,31 +63,21 @@ public class BookService {
             throw new ResponseException("One or more books is not available in catalog",HttpStatus.NOT_FOUND);
         }
 
-        // sort request by bookId to be align with books in store
-        var sortedReq = request.stream().sorted(Comparator.comparing(BookBorrowRequest::bookId)).toList();
 
         // borrowed book response details
         var borrowBookResponse = new ArrayList<BookBorrowResponse>();
-        List<Book> booksToUpdate = new ArrayList<>();
 
-        for (int i =0; i < sortedReq.size(); i++ ){
-            var book = books.get(i);
-            var bookReq = sortedReq.get(i);
-
+        for (Book book : books){
             var availableCopies = book.getQuantity() - book.getBorrowedCopies();
-
-           // check if book quantity is less than 1 (user cant borrow more than one copy of a book)
             if (availableCopies < 1){
                 throw new ResponseException("Insufficient quantity to borrow",HttpStatus.BAD_REQUEST);
             }
 
             book.setBorrowedCopies(book.getBorrowedCopies() + 1);
-
-            booksToUpdate.add(book);
             borrowBookResponse.add(mapper.toBorrowBookResponse(book));
         }
 
-        repository.saveAll(booksToUpdate);
+        repository.saveAll(books);
 
         return borrowBookResponse;
 

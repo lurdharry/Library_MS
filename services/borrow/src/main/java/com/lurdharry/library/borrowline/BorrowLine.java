@@ -13,7 +13,7 @@ import lombok.*;
 @Builder
 public class BorrowLine {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     @ManyToOne

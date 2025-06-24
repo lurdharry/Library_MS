@@ -20,6 +20,6 @@ public interface BookClient {
 
     @PostMapping("/borrow")
     ResponseDTO borrowBook(
-            @RequestBody @Valid List<BookBorrowRequest> request
+            @RequestBody @Valid List<String> request
     );
 }

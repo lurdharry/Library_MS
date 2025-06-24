@@ -48,8 +48,6 @@ public class BorrowOrder {
     @Column(insertable = false)
     private LocalDateTime lastModified;
 
-
-    @Column(nullable = false)
     private LocalDateTime approvedDate;
 
     private LocalDateTime dueDate;

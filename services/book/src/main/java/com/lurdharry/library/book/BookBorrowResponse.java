@@ -9,7 +9,6 @@ public record BookBorrowResponse(
          String title,
          String author,
 
-
          Integer quantity,
          Integer borrowedCopies
 ) {

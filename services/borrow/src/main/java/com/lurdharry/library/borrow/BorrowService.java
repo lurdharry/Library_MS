@@ -1,7 +1,6 @@
 package com.lurdharry.library.borrow;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lurdharry.library.book.BookBorrowRequest;
 import com.lurdharry.library.book.BookClient;
 import com.lurdharry.library.borrowline.BorrowLineRequest;
 import com.lurdharry.library.borrowline.BorrowLineService;
@@ -40,12 +39,12 @@ public class BorrowService {
 
 
         // persist borrow line for each book
-        for (BookBorrowRequest bookRequest: request.books()){
+        for (String bookRequest: request.books()){
             borrowLineService.saveBorrowLine(
                     new BorrowLineRequest(
                             null,
                             borrowOrder.getId(),
-                            bookRequest.bookId()
+                            bookRequest
                     )
             );
         }

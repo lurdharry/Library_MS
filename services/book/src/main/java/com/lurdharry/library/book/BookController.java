@@ -29,7 +29,7 @@ public class BookController {
 
     @PostMapping("/borrow")
     public ResponseEntity<ResponseDTO> borrowBook(
-            @RequestBody @Valid List<BookBorrowRequest> request
+            @RequestBody @Valid List<String> request
     ){
         var res =  service.borrowBook(request);
         ResponseDTO response = new ResponseDTO(HttpStatus.CREATED.value(), "Book borrow successfully",res);
