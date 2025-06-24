@@ -11,7 +11,8 @@ import java.util.UUID;
 @FeignClient(
         name = "user-service",
         url = "${application.config.user-url}",
-        configuration = FeignClientConfig.class
+        configuration = FeignClientConfig.class,
+        contextId = "userServiceClient"
 )
 public interface UserClient {
 
