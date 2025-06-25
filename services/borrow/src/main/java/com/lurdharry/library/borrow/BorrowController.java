@@ -15,6 +15,15 @@ public class BorrowController {
     private final BorrowService borrowService;
 
 
+    @GetMapping("/{borrow-id}")
+    public ResponseEntity<ResponseDTO> getOrderById(
+            @PathVariable("borrow-id") String borrowId
+    ){
+        var res =  borrowService.getBorrowOrderById(borrowId);
+        ResponseDTO response = new ResponseDTO(HttpStatus.CREATED.value(), "Borrow order retrieved successfully",res);
+        return  ResponseEntity.ok(response);
+    }
+
     @PostMapping
     public ResponseEntity<ResponseDTO> borrowBook(
             @RequestBody @Valid BorrowRequest request

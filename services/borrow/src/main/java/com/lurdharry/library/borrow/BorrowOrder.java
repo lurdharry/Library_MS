@@ -56,7 +56,7 @@ public class BorrowOrder {
     public void approve(String adminId, LocalDateTime approvalTime) {
         this.approvedBy = adminId;
         this.approvedDate = approvalTime;
-        this.dueDate = approvalTime.plusDays(14);
+        this.dueDate = approvalTime.plusDays(21);
         this.status = ApprovalStatus.APPROVED;
     }
 }

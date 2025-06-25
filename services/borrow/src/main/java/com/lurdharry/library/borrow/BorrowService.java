@@ -2,6 +2,7 @@ package com.lurdharry.library.borrow;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lurdharry.library.book.BookClient;
+import com.lurdharry.library.borrowline.BorrowLine;
 import com.lurdharry.library.borrowline.BorrowLineRequest;
 import com.lurdharry.library.borrowline.BorrowLineService;
 import com.lurdharry.library.dto.ResponseDTO;
@@ -12,8 +13,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +32,11 @@ public class BorrowService {
     private final BorrowLineService borrowLineService;
 
 
+    public BorrowOrderResponse getBorrowOrderById(String borrowId){
+        return borrowRepository.findById(borrowId).map(mapper::toBorrowOrderResponse)
+                .orElseThrow(() -> new ResponseException("Order not found with ID: " + borrowId, HttpStatus.NOT_FOUND));
+
+    }
 
     public List<BorrowOrderResponse> getAllBorrowOrders(){
         return borrowRepository.findAll().stream().map(mapper::toBorrowOrderResponse).collect(Collectors.toList());
@@ -35,10 +45,7 @@ public class BorrowService {
 
     @Transactional
     public String orderBook(@Valid BorrowRequest request) {
-//        var user = getVerifiedUser(request.userId());
-
-        // borrow the book from book service
-        var borrowedBook = bookClient.borrowBook(request.books());
+        //    var user = getVerifiedUser(request.userId());
 
         // persist borrow order
         var borrowOrder =  borrowRepository.save(mapper.toBorrowOrder(request));
