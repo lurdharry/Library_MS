@@ -20,7 +20,7 @@ public class BorrowController {
             @PathVariable("borrow-id") String borrowId
     ){
         var res =  borrowService.getBorrowOrderById(borrowId);
-        ResponseDTO response = new ResponseDTO(HttpStatus.CREATED.value(), "Borrow order retrieved successfully",res);
+        ResponseDTO response = new ResponseDTO(HttpStatus.OK.value(), "Borrow order retrieved successfully",res);
         return  ResponseEntity.ok(response);
     }
 
@@ -36,7 +36,7 @@ public class BorrowController {
     @GetMapping("/admin/allOrders")
     public ResponseEntity<ResponseDTO> getAllOrders(){
         var borrowOrders = borrowService.getAllBorrowOrders();
-        ResponseDTO res = new ResponseDTO(HttpStatus.ACCEPTED.value(), null,borrowOrders);
+        ResponseDTO res = new ResponseDTO(HttpStatus.OK.value(), null,borrowOrders);
         return ResponseEntity.ok(res);
     }
 
