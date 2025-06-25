@@ -5,6 +5,10 @@ import com.lurdharry.library.borrowline.BorrowLine;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class BorrowMapper {
 
@@ -23,6 +27,11 @@ public class BorrowMapper {
     }
 
     public BorrowOrderResponse toBorrowOrderResponse(BorrowOrder borrowOrder) {
+        List<BorrowLine> lines = Optional.ofNullable(borrowOrder.getBorrowLines())
+                .orElse(Collections.emptyList());
+
+        List<BookResponse> books = lines.stream().map(this::toBookResponse).toList();
+
         return BorrowOrderResponse.builder()
                 .id(borrowOrder.getId())
                 .borrowDate(borrowOrder.getBorrowDate())
@@ -30,7 +39,7 @@ public class BorrowMapper {
                 .approvedBy(borrowOrder.getApprovedBy())
                 .dueDate(borrowOrder.getDueDate())
                 .approvedDate(borrowOrder.getApprovedDate())
-                .books(borrowOrder.getBorrowLines().stream().map(this::toBookResponse).toList())
+                .books(books)
                 .build();
     }
 }
