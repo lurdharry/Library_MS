@@ -23,4 +23,22 @@ public class BorrowController {
         ResponseDTO response = new ResponseDTO(HttpStatus.CREATED.value(), "Book borrow successfully",res);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/admin/allOrders")
+    public ResponseEntity<ResponseDTO> getAllOrders(){
+        var borrowOrders = borrowService.getAllBorrowOrders();
+        ResponseDTO res = new ResponseDTO(HttpStatus.ACCEPTED.value(), null,borrowOrders);
+        return ResponseEntity.ok(res);
+    }
+
+    @PostMapping("/admin/approve")
+    public ResponseEntity<ResponseDTO> approveBorrowStat(
+            @RequestBody @Valid StatusUpdateRequest request
+    ) {
+        String res = borrowService.approveBorrowStatus(request);
+        ResponseDTO response = new ResponseDTO(HttpStatus.ACCEPTED.value(), "Book borrow order status updated",res);
+        return ResponseEntity.ok(response);
+    }
+
+
 }
