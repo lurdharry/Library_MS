@@ -44,7 +44,7 @@ public class AuthService {
             return buildAccessTokenAndRefreshToken(auth);
         } catch (AuthenticationException e) {
 
-            throw new RuntimeException(e);
+            throw new ResponseException(e.getMessage(),HttpStatus.UNAUTHORIZED);
         }
     }
 
