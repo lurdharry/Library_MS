@@ -20,6 +20,7 @@
         <option value="$PROJECT_DIR$/services/gateway/pom.xml" />
         <option value="$PROJECT_DIR$/services/book/pom.xml" />
         <option value="$PROJECT_DIR$/services/borrow/pom.xml" />
+        <option value="$PROJECT_DIR$/services/notification/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
