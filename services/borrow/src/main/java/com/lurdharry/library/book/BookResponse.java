@@ -4,7 +4,7 @@ import lombok.Builder;
 
 @Builder
 public record BookResponse(
-        String bookId,
+        String id,
         String title,
         String author
 ) {

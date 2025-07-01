@@ -22,7 +22,7 @@ public class BorrowMapper {
 
     public BookResponse toBookResponse (BorrowLine borrowLine){
         return BookResponse.builder()
-                .bookId(borrowLine.getBookId())
+                .id(borrowLine.getBookId())
                 .build();
     }
 
