@@ -46,8 +46,8 @@ public class BookMapper {
         }
     }
 
-    public BookBorrowResponse toBorrowBookResponse(Book book) {
-        return BookBorrowResponse.builder()
+    public BookResponse toBorrowBookResponse(Book book) {
+        return BookResponse.builder()
                 .id(book.getId())
                 .author(book.getAuthor())
                 .borrowedCopies(book.getBorrowedCopies())

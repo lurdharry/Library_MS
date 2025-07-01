@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -52,9 +53,12 @@ public class BookService {
         repository.deleteById(bookId);
     }
 
+    public List<BookResponse> getBookByIds(@Valid List<String> bookIds){
+        return repository.findAllById(bookIds).stream().map(mapper::toBorrowBookResponse).collect(Collectors.toList());
+    }
 
 
-    public List<BookBorrowResponse> borrowBook(@Valid List<String> bookIds) {
+    public List<BookResponse> borrowBook(@Valid List<String> bookIds) {
 //        find all books
         var books = repository.findAllById(bookIds);
 
@@ -65,7 +69,7 @@ public class BookService {
 
 
         // borrowed book response details
-        var borrowBookResponse = new ArrayList<BookBorrowResponse>();
+        var borrowBookResponse = new ArrayList<BookResponse>();
 
         for (Book book : books){
             var availableCopies = book.getQuantity() - book.getBorrowedCopies();

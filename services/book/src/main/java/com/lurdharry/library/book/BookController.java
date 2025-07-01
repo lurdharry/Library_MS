@@ -4,6 +4,7 @@ import com.lurdharry.library.dto.BookRequest;
 import com.lurdharry.library.dto.ResponseDTO;
 import com.lurdharry.library.dto.UpdateBookRequest;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,10 +30,19 @@ public class BookController {
 
     @PostMapping("/borrow")
     public ResponseEntity<ResponseDTO> borrowBook(
-            @RequestBody @Valid List<String> request
+            @RequestBody @NotEmpty List<String> request
     ){
         var res =  service.borrowBook(request);
         ResponseDTO response = new ResponseDTO(HttpStatus.CREATED.value(), "Book borrow successfully",res);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/by-ids")
+    public ResponseEntity<ResponseDTO> getBooksByIds(
+            @RequestBody @NotEmpty List<String> request
+    ){
+        var res = service.getBookByIds(request);
+        ResponseDTO response = new ResponseDTO(HttpStatus.ACCEPTED.value(), "Books retrieved successfully",res);
         return ResponseEntity.ok(response);
     }
 
