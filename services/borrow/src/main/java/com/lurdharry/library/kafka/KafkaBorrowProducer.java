@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class BorrowProducer {
+public class KafkaBorrowProducer {
     private final KafkaTemplate<String,BorrowOrderConfirmation> orderKafkaTemplate;
     private final KafkaTemplate<String,BorrowStatusConfirmation> statusKafkaTemplate;
 
