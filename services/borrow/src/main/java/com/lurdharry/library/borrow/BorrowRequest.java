@@ -12,7 +12,7 @@ public record BorrowRequest(
         @NotBlank(message = "User is required")
         String userId,
 
-        @NotEmpty(message = "You should at least borrow one book")
-        List<String> books
+        @NotEmpty(message = "You should at least one book id")
+        List<String> bookIds
 ) {
 }

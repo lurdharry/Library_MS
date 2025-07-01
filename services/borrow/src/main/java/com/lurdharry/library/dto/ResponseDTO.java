@@ -6,9 +6,9 @@ import lombok.Builder;
 
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public record ResponseDTO(
+public record ResponseDTO<T>(
         Integer status,
         String message,
-        Object data
+        T data
 ) {
 }

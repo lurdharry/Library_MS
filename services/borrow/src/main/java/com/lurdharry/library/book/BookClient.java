@@ -3,7 +3,6 @@ package com.lurdharry.library.book;
 
 import com.lurdharry.library.dto.ResponseDTO;
 import com.lurdharry.library.user.FeignClientConfig;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,12 +19,12 @@ import java.util.List;
 public interface BookClient {
 
     @PostMapping("/borrow")
-    ResponseDTO borrowBook(
+    void borrowBook(
             @RequestBody @NotEmpty List<String> bookIds
     );
 
     @PostMapping("/by-ids")
-    ResponseDTO getBooksByIds(
+    ResponseDTO<List<BookResponse>> getBooksByIds(
             @RequestBody @NotEmpty List<String> bookIds
     );
 }
