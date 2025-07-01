@@ -36,38 +36,17 @@ public class EmailService {
             String userName,
             String bookOrderRef,
             List<Book> books
-    ) throws MessagingException {
-
-        MimeMessage mimeMessage = mailSender.createMimeMessage();
-        MimeMessageHelper messageHelper = new MimeMessageHelper(
-                mimeMessage,
-                MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
-                UTF_8.name()
-        );
-        messageHelper.setFrom("contact@library.com");
+    ) {
 
         final String templateName = BORROW_CONFIRMATION.getTemplate();
+        final String subject = BORROW_CONFIRMATION.getSubject();
 
         Map<String,Object> variables = new HashMap<>();
         variables.put("userName",userName);
         variables.put("bookOrderRef",bookOrderRef);
         variables.put("books",books);
 
-        Context context = new Context();
-        context.setVariables(variables);
-
-        messageHelper.setSubject(BORROW_CONFIRMATION.getSubject());
-
-        try {
-            String htmlTemplate = templateEngine.process(templateName,context);
-            messageHelper.setText(htmlTemplate,true);
-            messageHelper.setTo(destinationEmail);
-            mailSender.send(mimeMessage);
-
-            log.info("INFO - Email successfully sent to {} with template {}", destinationEmail, templateName);
-        } catch (MessagingException e){
-            log.warn("WARNING - cannot send email to {}",destinationEmail);
-        }
+        sendEmailTemplate(destinationEmail,templateName,subject,variables);
     }
 
     @Async
@@ -77,17 +56,10 @@ public class EmailService {
             String bookOrderRef,
             ApprovalStatus status,
             List<Book> books
-    ) throws MessagingException {
-        MimeMessage mimeMessage = mailSender.createMimeMessage();
-        MimeMessageHelper messageHelper = new MimeMessageHelper(
-                mimeMessage,
-                MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
-                UTF_8.name()
-        );
-
-        messageHelper.setFrom("contact@library.com");
+    )  {
 
         final String templateName = STATUS_UPDATE.getTemplate();
+        final String subject = STATUS_UPDATE.getSubject();
 
         Map<String, Object> variables = new HashMap<>();
         variables.put("userName",userName);
@@ -95,7 +67,37 @@ public class EmailService {
         variables.put("books",books);
         variables.put("status",status);
 
-        Context context = new Context();
-        context.setVariables(variables);
+        sendEmailTemplate(destinationEmail,templateName,subject,variables);
+    }
+
+    private void sendEmailTemplate(
+         String   destinationEmail,
+         String templateName,
+         String subject,
+         Map<String, Object> variables
+    )  {
+
+        try {
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper messageHelper = new MimeMessageHelper(
+                    mimeMessage,
+                    MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+                    UTF_8.name()
+            );
+
+            messageHelper.setFrom("contact@library.com");
+            messageHelper.setSubject(subject);
+            messageHelper.setTo(destinationEmail);
+
+            Context context = new Context();
+            context.setVariables(variables);
+            String htmlTemplate = templateEngine.process(templateName,context);
+            messageHelper.setText(htmlTemplate,true);
+
+            mailSender.send(mimeMessage);
+            log.info("Email successfully sent to {} with template {}",destinationEmail,templateName);
+        } catch (MessagingException e) {
+            log.warn("Failed to send email to {}: {}", destinationEmail, e.getMessage(), e);
+        }
     }
 }
