@@ -33,7 +33,7 @@ public class EmailService {
     @Async
     public void sendOrderSuccessEmail(
             String destinationEmail,
-            String userName,
+            String username,
             String bookOrderRef,
             List<Book> books
     ) {
@@ -42,7 +42,7 @@ public class EmailService {
         final String subject = BORROW_CONFIRMATION.getSubject();
 
         Map<String,Object> variables = new HashMap<>();
-        variables.put("userName",userName);
+        variables.put("username",username);
         variables.put("bookOrderRef",bookOrderRef);
         variables.put("books",books);
 
@@ -52,7 +52,7 @@ public class EmailService {
     @Async
     public void sendStatusConfirmation(
             String destinationEmail,
-            String userName,
+            String username,
             String bookOrderRef,
             ApprovalStatus status,
             List<Book> books
@@ -62,7 +62,7 @@ public class EmailService {
         final String subject = STATUS_UPDATE.getSubject();
 
         Map<String, Object> variables = new HashMap<>();
-        variables.put("userName",userName);
+        variables.put("username",username);
         variables.put("bookOrderRef",bookOrderRef);
         variables.put("books",books);
         variables.put("status",status);
@@ -76,7 +76,6 @@ public class EmailService {
          String subject,
          Map<String, Object> variables
     )  {
-
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper messageHelper = new MimeMessageHelper(
