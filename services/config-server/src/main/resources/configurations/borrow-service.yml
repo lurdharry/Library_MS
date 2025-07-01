@@ -9,6 +9,14 @@ spring:
       ddl-auto: update
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  kafka:
+    producer:
+      bootstrap-servers:
+        - localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.type.mapping: BorrowOrderConfirmation:com.lurdharry.library.kafka.BorrowOrderConfirmation, BorrowStatusConfirmation:com.lurdharry.library.kafka.BorrowStatusConfirmation
 
 server:
   port: 8050
