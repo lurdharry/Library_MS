@@ -2,9 +2,7 @@ package com.lurdharry.library.borrow;
 
 import com.lurdharry.library.book.BookClient;
 import com.lurdharry.library.book.BookResponse;
-import com.lurdharry.library.borrowline.BorrowLine;
-import com.lurdharry.library.borrowline.BorrowLineRequest;
-import com.lurdharry.library.borrowline.BorrowLineService;
+import com.lurdharry.library.borrowline.*;
 import com.lurdharry.library.dto.ResponseDTO;
 import com.lurdharry.library.exception.ResponseException;
 import com.lurdharry.library.kafka.BorrowOrderConfirmation;
@@ -32,7 +30,9 @@ public class BorrowService {
     private final BorrowMapper mapper;
     private final BookClient bookClient;
     private final BorrowLineService borrowLineService;
+    private final BorrowLineRepository borrowLineRepository;
     private final KafkaBorrowProducer kafkaBorrowProducer;
+    private final BorrowLineMapper borrowLineMapper;
 
 
     public BorrowOrderResponse getBorrowOrderById(String borrowId){
@@ -53,15 +53,18 @@ public class BorrowService {
         var borrowOrder =  borrowRepository.save(mapper.toBorrowOrder(request));
 
         // persist borrow line for each book
-        for (String bookRequest: request.bookIds()){
-            borrowLineService.saveBorrowLine(
-                    new BorrowLineRequest(
-                            null,
-                            borrowOrder.getId(),
-                            bookRequest
-                    )
-            );
-        }
+        var lines = request.bookIds().stream()
+                .map(bookId -> new BorrowLine(
+                        null,
+                        BorrowOrder.builder().id(
+                                borrowOrder.getId()
+                        ).build(),
+                        bookId
+                        )
+                )
+                .toList();
+
+        borrowLineRepository.saveAll(lines);
 
         // send order notification --> notification -ms
         var user = getVerifiedUser(request.userId());
