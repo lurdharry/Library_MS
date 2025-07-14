@@ -9,6 +9,10 @@ public record UserRequest(
         String email,
 
         @NotNull(message = "Password is required")
-        String password
+        String password,
+
+        String firstname,
+
+        String lastname
 ) {
 }
