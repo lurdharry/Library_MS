@@ -75,6 +75,10 @@ public class BorrowService {
         var orderDetails = borrowRepository.findById(request.orderId())
                 .orElseThrow(() -> new ResponseException("Order not found with ID: " + request.orderId(), HttpStatus.NOT_FOUND));
 
+        if (orderDetails.getStatus() == ApprovalStatus.APPROVED) {
+            throw  new ResponseException("Order already approved",HttpStatus.FORBIDDEN);
+        }
+
         // get bookIds from orderLines
         var bookIds = orderDetails.getBorrowLines().stream().map(BorrowLine::getBookId).toList();
 
