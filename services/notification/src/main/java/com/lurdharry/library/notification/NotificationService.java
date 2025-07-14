@@ -61,5 +61,11 @@ public class NotificationService {
 
         repository.save(mapper.toPasswordNotification(confirmation));
 
+        var username = confirmation.user().firstname() + " " + confirmation.user().lastname();
+
+        emailService.sendChangePasswordConfirmation(
+                confirmation.user().email(),
+                username
+        );
     }
 }

@@ -2,6 +2,7 @@ package com.lurdharry.library.kafka;
 
 import com.lurdharry.library.kafka.borrow.BorrowOrderConfirmation;
 import com.lurdharry.library.kafka.borrow.BorrowStatusConfirmation;
+import com.lurdharry.library.kafka.user.PasswordConfirmation;
 import com.lurdharry.library.notification.NotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,5 +29,12 @@ public class NotificationConsumer {
     public void consumeOrderStatusNotification(BorrowStatusConfirmation confirmation){
         log.info("consuming message from order-status-topic {}",confirmation);
         service.handleBorrowStatusConfirmation(confirmation);
+    }
+
+    @KafkaListener(topics = "change-password-topic")
+    public  void  consumePasswordNotification(PasswordConfirmation confirmation){
+        log.info("consuming message from password-topic {}",confirmation);
+
+        service.handleChangePassword(confirmation);
     }
 }
