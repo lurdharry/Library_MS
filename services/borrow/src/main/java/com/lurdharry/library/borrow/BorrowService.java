@@ -21,7 +21,6 @@ public class BorrowService {
 
     private final BorrowRepository borrowRepository;
     private final BorrowMapper mapper;
-    private final BookClient bookClient;
     private final BorrowLineRepository borrowLineRepository;
     private final BorrowKafkaEventListener borrowKafkaEventListener;
 
@@ -79,9 +78,6 @@ public class BorrowService {
         // get bookIds from orderLines
         var bookIds = orderDetails.getBorrowLines().stream().map(BorrowLine::getBookId).toList();
 
-
-        // borrow the book from book service  to be handles by admin to update the books count
-         bookClient.borrowBook(bookIds);
 
         // approve order
         orderDetails.approve(request.adminId(), LocalDateTime.now());
