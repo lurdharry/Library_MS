@@ -3,6 +3,7 @@ package com.lurdharry.library.notification;
 import com.lurdharry.library.email.EmailService;
 import com.lurdharry.library.kafka.borrow.BorrowOrderConfirmation;
 import com.lurdharry.library.kafka.borrow.BorrowStatusConfirmation;
+import com.lurdharry.library.kafka.user.PasswordConfirmation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,7 @@ public class NotificationService {
         );
     }
 
+    @Transactional
     public void handleBorrowStatusConfirmation(BorrowStatusConfirmation confirmation){
         log.info("Received order-status-topic: {}", confirmation);
 
@@ -50,6 +52,14 @@ public class NotificationService {
                 confirmation.status(),
                 confirmation.books()
         );
+
+    }
+
+    @Transactional
+    public  void  handleChangePassword(PasswordConfirmation confirmation){
+        log.info("Received password-update-topic: {}", confirmation);
+
+        repository.save(mapper.toPasswordNotification(confirmation));
 
     }
 }

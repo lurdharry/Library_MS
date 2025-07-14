@@ -8,7 +8,8 @@ import lombok.RequiredArgsConstructor;
 public enum EmailTemplates {
 
     BORROW_CONFIRMATION("borrow-confirmation.html","Borrow order processed"),
-    STATUS_UPDATE("status-confirmation.html","Order status updated");
+    STATUS_UPDATE("status-confirmation.html","Order status updated"),
+    PASSWORD_UPDATE_CONFIRMATION("password-change-confirmation.html","Password update");
 
     private final String template;
     private final String subject;

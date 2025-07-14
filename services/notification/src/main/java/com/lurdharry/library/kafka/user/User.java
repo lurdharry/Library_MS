@@ -1,4 +1,4 @@
-package com.lurdharry.library.kafka.borrow;
+package com.lurdharry.library.kafka.user;
 
 public record User(
         String id,

@@ -17,8 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.lurdharry.library.email.EmailTemplates.BORROW_CONFIRMATION;
-import static com.lurdharry.library.email.EmailTemplates.STATUS_UPDATE;
+import static com.lurdharry.library.email.EmailTemplates.*;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 
@@ -66,6 +65,19 @@ public class EmailService {
         variables.put("bookOrderRef",bookOrderRef);
         variables.put("books",books);
         variables.put("status",status);
+
+        sendEmailTemplate(destinationEmail,templateName,subject,variables);
+    }
+
+    public void sendChangePasswordConfirmation(
+            String destinationEmail,
+            String username
+    ){
+        final String templateName = PASSWORD_UPDATE_CONFIRMATION.getTemplate();
+        final String subject = PASSWORD_UPDATE_CONFIRMATION.getSubject();
+
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("username",username);
 
         sendEmailTemplate(destinationEmail,templateName,subject,variables);
     }
