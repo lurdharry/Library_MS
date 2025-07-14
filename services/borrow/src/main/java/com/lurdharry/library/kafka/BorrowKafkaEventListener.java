@@ -1,13 +1,13 @@
-package com.lurdharry.library.borrow;
+package com.lurdharry.library.kafka;
 
 import com.lurdharry.library.book.BookClient;
 import com.lurdharry.library.book.BookResponse;
+import com.lurdharry.library.borrow.ApprovalStatus;
+import com.lurdharry.library.borrow.BorrowOrder;
+import com.lurdharry.library.borrow.BorrowRequest;
 import com.lurdharry.library.borrowline.BorrowLine;
 import com.lurdharry.library.dto.ResponseDTO;
 import com.lurdharry.library.exception.ResponseException;
-import com.lurdharry.library.kafka.BorrowOrderConfirmation;
-import com.lurdharry.library.kafka.BorrowStatusConfirmation;
-import com.lurdharry.library.kafka.KafkaBorrowProducer;
 import com.lurdharry.library.user.UserClient;
 import com.lurdharry.library.user.UserResponse;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class BorrowEventListener {
+public class BorrowKafkaEventListener {
     private final UserClient userClient;
     private final BookClient bookClient;
     private final KafkaBorrowProducer producer;
@@ -34,7 +34,7 @@ public class BorrowEventListener {
         var user = getVerifiedUser(request.userId());
         var books = getBooksByIds(request.bookIds());
 
-        String orderRef = ("REF" + request.id()).toUpperCase();
+        String orderRef = ("REF_" + request.id()).toUpperCase();
 
         producer.sendBorrowOrderConfirmation(
                 new BorrowOrderConfirmation(
@@ -48,7 +48,9 @@ public class BorrowEventListener {
 
     @EventListener
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void  onBorrowApproved(StatusUpdateRequest request,BorrowOrder order){
+    public void  onBorrowApproved(BorrowApprovedEvent event){
+        var order = event.order();
+        var orderId = event.orderId();
         // get bookIds from orderLines
         var bookIds = order.getBorrowLines().stream().map(BorrowLine::getBookId).toList();
 
@@ -58,7 +60,7 @@ public class BorrowEventListener {
         var user = getVerifiedUser(order.getUserId());
         var books = getBooksByIds(bookIds);
 
-        String orderRef = ("REF" + request.orderId()).toUpperCase();
+        String orderRef = ("REF_" + orderId).toUpperCase();
 
         producer.sendStatusConfirmation(
                 new BorrowStatusConfirmation(

@@ -1,15 +1,11 @@
 package com.lurdharry.library.borrow;
 
 import com.lurdharry.library.book.BookClient;
-import com.lurdharry.library.book.BookResponse;
-import com.lurdharry.library.borrowline.*;
-import com.lurdharry.library.dto.ResponseDTO;
+import com.lurdharry.library.borrowline.BorrowLine;
+import com.lurdharry.library.borrowline.BorrowLineRepository;
 import com.lurdharry.library.exception.ResponseException;
-import com.lurdharry.library.kafka.BorrowOrderConfirmation;
-import com.lurdharry.library.kafka.BorrowStatusConfirmation;
-import com.lurdharry.library.kafka.KafkaBorrowProducer;
-import com.lurdharry.library.user.UserClient;
-import com.lurdharry.library.user.UserResponse;
+import com.lurdharry.library.kafka.BorrowApprovedEvent;
+import com.lurdharry.library.kafka.BorrowKafkaEventListener;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,21 +14,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class BorrowService {
 
-    private final UserClient userClient;
     private final BorrowRepository borrowRepository;
     private final BorrowMapper mapper;
     private final BookClient bookClient;
-    private final BorrowLineService borrowLineService;
     private final BorrowLineRepository borrowLineRepository;
-    private final KafkaBorrowProducer kafkaBorrowProducer;
-    private final BorrowLineMapper borrowLineMapper;
+    private final BorrowKafkaEventListener borrowKafkaEventListener;
 
 
     public BorrowOrderResponse getBorrowOrderById(String borrowId){
@@ -42,7 +33,9 @@ public class BorrowService {
     }
 
     public List<BorrowOrderResponse> getAllBorrowOrders(){
-        return borrowRepository.findAll().stream().map(mapper::toBorrowOrderResponse).collect(Collectors.toList());
+        return borrowRepository.findAll().stream()
+                .map(mapper::toBorrowOrderResponse)
+                .toList();
     }
 
 
@@ -52,13 +45,14 @@ public class BorrowService {
         // persist borrow order
         var borrowOrder =  borrowRepository.save(mapper.toBorrowOrder(request));
 
+        // Or if you need a reference-only entity
+        var borrowOrderRef = new BorrowOrder();
+        borrowOrderRef.setId(borrowOrder.getId());
         // persist borrow line for each book
         var lines = request.bookIds().stream()
                 .map(bookId -> new BorrowLine(
                         null,
-                        BorrowOrder.builder().id(
-                                borrowOrder.getId()
-                        ).build(),
+                        borrowOrderRef,
                         bookId
                         )
                 )
@@ -66,17 +60,8 @@ public class BorrowService {
 
         borrowLineRepository.saveAll(lines);
 
-        // send order notification --> notification -ms
-        var user = getVerifiedUser(request.userId());
-        var books = getBooksByIds(request.bookIds());
-        String orderRef = String.format("REF"+borrowOrder.getId()).toUpperCase();
-
-        kafkaBorrowProducer.sendBorrowOrderConfirmation(
-                new BorrowOrderConfirmation(
-                        orderRef,
-                        user,
-                        books
-                )
+        borrowKafkaEventListener.onBorrowCreated(
+                new BorrowRequest(borrowOrder.getId(),request.userId(),request.bookIds())
         );
 
         return borrowOrder.getId();
@@ -101,17 +86,9 @@ public class BorrowService {
         // approve order
         orderDetails.approve(request.adminId(), LocalDateTime.now());
 
-        String orderRef = String.format("REF"+orderDetails.getId()).toUpperCase();
-        // send order notification --> notification -ms
-        var user = getVerifiedUser(orderDetails.getUserId());
-        var books = getBooksByIds(bookIds);
-        kafkaBorrowProducer.sendStatusConfirmation(
-                new BorrowStatusConfirmation(
-                        orderRef,
-                        user,
-                        books,
-                        ApprovalStatus.APPROVED
-                )
+        // send notification
+        borrowKafkaEventListener.onBorrowApproved(
+                new BorrowApprovedEvent(request.orderId(),orderDetails)
         );
 
 
@@ -119,17 +96,4 @@ public class BorrowService {
 
     }
 
-
-    private UserResponse getVerifiedUser(String userId) {
-        ResponseDTO<UserResponse> response = userClient.getUserById(userId);
-        return Optional.ofNullable(response.data())
-                .orElseThrow(() -> new ResponseException("User not found with ID: " + userId, HttpStatus.NOT_FOUND));
-    }
-
-    private List<BookResponse> getBooksByIds(List<String> bookIds){
-        ResponseDTO<List<BookResponse>> response = bookClient.getBooksByIds(bookIds);
-        return Optional.ofNullable(response.data()).orElseThrow(
-                ()->new ResponseException("Unable to get book details",HttpStatus.NOT_FOUND)
-        );
-    }
 }

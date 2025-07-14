@@ -8,8 +8,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="authorization" />
-        <module name="gateway" />
         <module name="discovery" />
+        <module name="gateway" />
       </profile>
       <profile name="Annotation profile for config-server" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -18,7 +18,7 @@
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.4.2/spring-boot-configuration-processor-3.4.2.jar" />
         </processorPath>
-        <module name="config-server" />
+        <module name="config" />
       </profile>
       <profile name="Annotation profile for borrow-service" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -28,13 +28,17 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
         </processorPath>
         <module name="borrow" />
-        <module name="library" />
+        <module name="notification" />
         <module name="user" />
         <module name="book" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="config-server" target="21" />
       <module name="configserver" target="21" />
+      <module name="library" target="21" />
+      <module name="library (1)" target="21" />
+      <module name="library-ms" target="1.5" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -42,11 +46,12 @@
       <module name="authorization" options="-parameters" />
       <module name="book" options="-parameters" />
       <module name="borrow" options="-parameters" />
+      <module name="config" options="-parameters" />
       <module name="config-server" options="-parameters" />
       <module name="configserver" options="-parameters" />
       <module name="discovery" options="-parameters" />
       <module name="gateway" options="-parameters" />
-      <module name="library" options="-parameters" />
+      <module name="notification" options="-parameters" />
       <module name="user" options="-parameters" />
     </option>
   </component>
