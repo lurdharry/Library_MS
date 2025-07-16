@@ -2,6 +2,7 @@ package com.lurdharry.library.auth;
 
 import com.lurdharry.library.dto.TokenResponse;
 import com.lurdharry.library.exception.ResponseException;
+import com.lurdharry.library.kafka.AuthProducer;
 import com.lurdharry.library.security.CustomUserDetailsService;
 import com.lurdharry.library.user.User;
 import com.lurdharry.library.user.UserRepository;
@@ -32,6 +33,8 @@ public class AuthService {
     private final CustomUserDetailsService customUserDetailsService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AuthProducer authKafkaProducer;
+    private final AuthMapper authMapper;
 
 
     public TokenResponse authorizeLogin(@Valid LoginRequest request){
@@ -97,10 +100,7 @@ public class AuthService {
 
         userRepository.save(user);
 
-        // TODO send email notification for successful password change
-
-
-
+        authKafkaProducer.sendChangePassword(authMapper.toKafkaUser(user));
     }
 
     // utility function
