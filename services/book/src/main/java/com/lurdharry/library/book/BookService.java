@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,7 +35,7 @@ public class BookService {
         return mapper.fromBook(book);
     }
 
-    public Object updateBook(@Valid UpdateBookRequest request) {
+    public BookResponse updateBook(@Valid UpdateBookRequest request) {
         var book = repository.findById(request.id()).orElseThrow(()-> new ResponseException("Cannot find book",HttpStatus.BAD_REQUEST));
 
         var updatedBook = mapper.mergeBook(book,request);
@@ -59,14 +58,8 @@ public class BookService {
 
 
     public List<BookResponse> borrowBook(@Valid List<String> bookIds) {
-//        find all books
-        var books = repository.findAllById(bookIds);
-
-        // check if all books are in catalog
-        if (bookIds.size() != books.size()){
-            throw new ResponseException("One or more books is not available in catalog",HttpStatus.NOT_FOUND);
-        }
-
+        //find all books
+        var books = getAllBooksById(bookIds);
 
         // borrowed book response details
         var borrowBookResponse = new ArrayList<BookResponse>();
@@ -82,8 +75,27 @@ public class BookService {
         }
 
         repository.saveAll(books);
-
         return borrowBookResponse;
 
+    }
+
+    public void returnBooks(@Valid List<String> bookIds){
+        var books = getAllBooksById(bookIds);
+
+        for (Book book : books){
+            book.setBorrowedCopies(book.getBorrowedCopies()-1);
+        }
+
+        repository.saveAll(books);
+    }
+
+
+    private List<Book> getAllBooksById (List<String> bookIds){
+        var books = repository.findAllById(bookIds);
+        // check if all books are in catalog
+        if (bookIds.size() != books.size()){
+            throw new ResponseException("One or more books is not available in catalog",HttpStatus.NOT_FOUND);
+        }
+        return books;
     }
 }

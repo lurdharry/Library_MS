@@ -83,6 +83,9 @@ public class BookController {
         return ResponseEntity.ok(new ResponseDTO(HttpStatus.NO_CONTENT.value(), "Book deleted",null));
     }
 
-
-
+    @PostMapping("/return")
+    public ResponseEntity<ResponseDTO> returnBooks(@Valid List<String> bookIds){
+        service.returnBooks(bookIds);
+        return ResponseEntity.ok(new ResponseDTO(HttpStatus.OK.value(),"Books returned successfully",null));
+    }
 }
